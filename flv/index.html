@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+ 
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>flv.js demo</title>
+    <style>
+        .mainContainer {
+    display: block;
+    width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+}
+ 
+.urlInput {
+    display: block;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+ 
+.centeredVideo {
+    display: block;
+    width: 100%;
+    height: 576px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+}
+ 
+.controls {
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin-left: 600px;
+    margin-right: auto;
+	margin-top: 30px;
+}
+    </style>
+</head>
+ 
+<body>	
+    <div class="mainContainer">
+        <video id="videoElement" class="centeredVideo" controls autoplay width="1280" height="720">Your browser is too old which doesn't support HTML5 video.</video>
+    </div>
+    <br>
+    <div class="controls">
+        <!--<button onclick="flv_load()">加载</button>-->
+        <button onclick="flv_start()">开始</button>
+        <button onclick="flv_pause()">暂停</button>
+        <button onclick="flv_destroy()">停止</button>
+        <input id="url" style="width:300px" type="text" name="seekpoint" />
+        <button onclick="play()">跳转</button>
+		<button onclick="speed1()" style=margin-left:40px>1倍</button>
+		<button onclick="speed2()">2倍</button>
+		<button onclick="speed4()">4倍</button>
+		<button onclick="speed8()">8倍</button>
+    </div>
+    <script src="flv.min.js"></script>
+    <script>
+        var player = document.getElementById('videoElement');
+       
+        function flv_start() {
+            player.play();
+        }
+ 
+        function flv_pause() {
+            player.pause();
+        }
+ 
+        function flv_destroy() {
+            player.pause();
+            player.unload();
+            player.detachMediaElement();
+            player.destroy();
+            player = null;
+        }
+ 
+        function flv_seekto() {
+            player.currentTime = parseFloat(document.getElementsByName('seekpoint')[0].value);
+        }
+		
+		function play() {
+			if (flvjs.isSupported()) {
+				var flvPlayer = flvjs.createPlayer({
+					type: 'flv',
+					url: document.getElementById('url').value
+				});
+				flvPlayer.attachMediaElement(videoElement);
+				flvPlayer.load(); // 加载
+			}
+		}
+		
+		function speed1() {
+			document.querySelector('video').playbackRate = 1.0;
+		}
+		function speed2() {
+			document.querySelector('video').playbackRate = 2.0;
+		}
+		function speed4() {
+			document.querySelector('video').playbackRate = 4.0;
+		}
+		function speed8() {
+			document.querySelector('video').playbackRate = 8.0;
+		}
+		
+    </script>
+</body>
+ 
+</html>
